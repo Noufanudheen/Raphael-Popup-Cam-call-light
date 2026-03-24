@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="popup_camera_light_entries">
+        <item>@string/popup_camera_light_title</item>
+        <item>@string/popup_camera_light_rule</item>
+        <item>@string/popup_camera_light_speed</item>
+        <item>@string/popup_camera_light_pattern</item>
+    </string-array>
+    <string-array name="popup_camera_light_entry_values">
+        <item>enabled</item>
+        <item>rule</item>
+        <item>speed_ms</item>
+        <item>pattern</item>
+    </string-array>
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="popup_camera_light_title">Pop-up Camera call light</string>
+    <string name="popup_camera_light_rule">Mode rule</string>
+    <string name="popup_camera_light_speed">Blink speed (ms)</string>
+    <string name="popup_camera_light_pattern">Custom pattern</string>
+</resources>

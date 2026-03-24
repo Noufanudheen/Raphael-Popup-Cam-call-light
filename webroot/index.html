@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Pop-up Camera LED</h1>
+        
+        <div class="control-group">
+            <label>Trigger Mode</label>
+            <select id="trigger_mode">
+                <option value="always">Always</option>
+                <option value="silent">Only in Silent</option>
+                <option value="vibrate">Only in Vibrate</option>
+                <option value="silent_vibrate">Silent or Vibrate</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <label>Constant Blink Speed (ms): <span id="speed_val">500</span></label>
+            <input type="range" id="blink_speed" value="500" min="50" max="2000" step="50">
+        </div>
+
+        <div class="control-group">
+            <label>Pattern</label>
+            <select id="pattern">
+                <option value="blink">Constant Blink</option>
+                <option value="solid">Solid Light</option>
+                <option value="triple">Triple Flash (3x 300ms, 200ms delay)</option>
+                <option value="custom">Custom Sequence</option>
+            </select>
+        </div>
+
+        <div class="control-group" id="custom_pattern_group" style="display: none;">
+            <label>Custom Sequence (Comma separated)</label>
+            <input type="text" id="custom_pattern" value="300,200,300,200,300,1000" placeholder="on_ms,off_ms,...">
+            <small style="color:#888;">Format: ON,OFF,ON,OFF... (in milliseconds)</small>
+        </div>
+
+        <button id="save_btn">Save Settings</button>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>

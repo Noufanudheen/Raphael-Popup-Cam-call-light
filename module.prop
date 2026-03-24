@@ -1,0 +1,7 @@
+id=raphael_popup_cam_light
+name=Raphael Pop-up Camera call Lightning
+version=v1.4
+versionCode=104
+author=neonbox
+description=Controls the pop-up camera LED on incoming calls.
+webUi=true
