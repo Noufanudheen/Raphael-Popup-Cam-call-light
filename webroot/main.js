@@ -20,13 +20,33 @@ pattern.addEventListener('change', () => {
 });
 
 async function loadSettings() {
+    // 1. Instantly load visual state from browser cache safely
+    const savedLocal = localStorage.getItem('raphael_light_config');
+    if (savedLocal) {
+        try {
+            const cfg = JSON.parse(savedLocal);
+            if (cfg.trigger_mode) triggerMode.value = cfg.trigger_mode;
+            if (cfg.blink_speed) {
+                blinkSpeed.value = cfg.blink_speed;
+                speedVal.innerText = cfg.blink_speed;
+            }
+            if (cfg.pattern) {
+                pattern.value = cfg.pattern;
+                pattern.dispatchEvent(new Event('change'));
+            }
+            if (cfg.custom_pattern) customPattern.value = cfg.custom_pattern;
+        } catch(e) {}
+    }
+
     if (typeof ksu === 'undefined') {
-        alert("KernelSU API missing.");
+        console.warn("KernelSU API missing. Running in standard browser?");
         return;
     }
+    
+    // 2. Try file system sync to ensure parity
     try {
         const res = await ksu.exec(`/system/bin/cat ${configFile}`);
-        if (res.errno === 0 || res.code === 0 || res.stdout) {
+        if ((res.errno === 0 || res.code === 0) && res.stdout) {
             try {
                 const cfg = JSON.parse(res.stdout);
                 if (cfg.trigger_mode) triggerMode.value = cfg.trigger_mode;
@@ -39,18 +59,16 @@ async function loadSettings() {
                     pattern.dispatchEvent(new Event('change'));
                 }
                 if (cfg.custom_pattern) customPattern.value = cfg.custom_pattern;
-            } catch(e) {}
+            } catch(e) {
+                console.error("JSON parse failure reading file from ksu:", e);
+            }
         }
     } catch (e) {
-        alert("Load Error: " + e.message);
+        console.error("File Read Error:", e.message);
     }
 }
 
 btn.addEventListener('click', async () => {
-    if (typeof ksu === 'undefined') {
-        alert("KernelSU API missing!");
-        return;
-    }
     const config = {
         trigger_mode: triggerMode.value,
         blink_speed: String(blinkSpeed.value),
@@ -58,15 +76,25 @@ btn.addEventListener('click', async () => {
         custom_pattern: customPattern.value
     };
     const jsonStr = JSON.stringify(config);
+    
+    // Guarantee WebUI continuity via localStorage
+    localStorage.setItem('raphael_light_config', jsonStr);
+
+    if (typeof ksu === 'undefined') {
+        alert("State saved to WebUI memory, but KernelSU API is missing to write to system!");
+        return;
+    }
+    
     try {
-        const res = await ksu.exec(`/system/bin/echo '${jsonStr}' > ${configFile}`);
+        const command = `/system/bin/echo '${jsonStr}' > ${configFile}`;
+        const res = await ksu.exec(command);
         
         if (res.errno !== 0 && res.errno !== undefined) {
-            alert("Failed to save! Errno: " + res.errno);
+            alert("Failed to flash config.json! Errno: " + res.errno);
         } else if (res.code !== 0 && res.code !== undefined) {
-            alert("Failed to save! Code: " + res.code);
+            alert("Failed to flash config.json! Code: " + res.code);
         } else {
-            alert("Settings Saved successfully!");
+            alert("Settings fully Saved & Cached! Your hardware rules are active.");
         }
     } catch (e) {
         alert("Save Exception: " + e.message);
