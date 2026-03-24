@@ -10,11 +10,12 @@ A fully-featured KernelSU module for the Xiaomi Redmi K20 Pro / Mi 9T Pro (rapha
 - **KernelSU WebUI**: A fully integrated, standalone configuration dashboard accessible directly from the KernelSU app—no extra APKs or launchers required!
 
 ## Installation
-1. Flash the latest zip module.
-2. Open the **KernelSU** app on your rooted device.
-3. Navigate to the **Modules** tab.
-4. Tap **Install** and select the downloaded zip file.
-5. Reboot your device.
+1. Download the [File](github.com/Noufanudheen/Raphael-Popup-Cam-call-light/releases).
+2. Flash the latest zip module.
+3. Open the **KernelSU** app on your rooted device.
+4. Navigate to the **Modules** tab.
+5. Tap **Install** and select the downloaded zip file.
+6. Reboot your device.
 
 ## Usage & Configuration
 Once installed and rebooted, you don't need to dig through system settings. Simply:
